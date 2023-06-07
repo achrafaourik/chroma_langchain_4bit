@@ -14,3 +14,10 @@ sanic-plugin-toolkit==1.2.0
 socketIO-client==0.7.2
 gunicorn==20.1.0
 uvicorn==0.21.1
+sentencepiece
+Xformers
+einops
+chromadb
+InstructorEmbedding
+sentence_transformers
+langchain

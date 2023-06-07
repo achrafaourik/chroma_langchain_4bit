@@ -13,9 +13,6 @@ import warnings
 from utils.functions import *
 
 
-# Set up logger
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-log = logging.getLogger(__name__)
 
 with open('./utils/template_ayumi.txt', 'r') as f:
     template = convert_to_multiline_string(f.read())
@@ -60,7 +57,6 @@ class HuggingFaceModel:
 
             set_seed(420)
             elapsed = 1000 * (perf_counter() - t0)
-            log.info("Model warm-up time: %d ms.", elapsed)
 
     @classmethod
     def predict(cls, history: str, text: str):
@@ -73,7 +69,6 @@ class HuggingFaceModel:
         # run the predictions using the llm chain
         generated_text = cls.llm_chain.predict(history=history, input=text)
         elapsed = 1000 * (perf_counter() - t0)
-        log.info("Model prediction time: %d ms.", elapsed)
 
         # Create the custom prediction object.
         return {"answer": generated_text}

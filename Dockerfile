@@ -22,8 +22,6 @@ RUN apt-get update \
 RUN pip install --upgrade pip
 RUN git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
 RUN git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ
-RUN pip install sentencepiece Xformers einops
-RUN pip install chromadb InstructorEmbedding sentence_transformers
 COPY ./requirements_prod.txt .
 RUN pip install -r requirements_prod.txt
 
