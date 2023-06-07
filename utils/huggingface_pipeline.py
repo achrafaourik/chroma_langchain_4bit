@@ -10,24 +10,24 @@ from transformers import AutoTokenizer, pipeline, logging
 from auto_gptq import AutoGPTQForCausalLM, BaseQuantizeConfig
 import os
 import warnings
-from utils.functions import *
-
+from . import functions
+from langchain.llms.fake import FakeListLLM
 
 
 with open('./utils/template_ayumi.txt', 'r') as f:
-    template = convert_to_multiline_string(f.read())
+    template = functions.convert_to_multiline_string(f.read())
 
 
 class HuggingFaceModel:
     """Class with only class methods"""
 
     # Class variable for the model pipeline
-    qa_pipeline = None
+    llm_chain = None
 
     @classmethod
     def load(cls):
         # Only load one instance of the model
-        if cls.qa_pipeline is None:
+        if cls.llm_chain is None:
             # Load the model pipeline.
             t0 = perf_counter()
             quantized_model_dir = [x for x in os.listdir() if '-GPTQ' in x][0]
@@ -51,6 +51,9 @@ class HuggingFaceModel:
                 top_p=0.95,
                 repetition_penalty=1.15)
             cls.llm = HuggingFacePipeline(pipeline=cls.qa_pipeline)
+
+            # responses=[" default response"]
+            # cls.llm = FakeListLLM(responses=responses)
 
             cls.prompt = PromptTemplate(template=template, input_variables=["history", "input"])
             cls.llm_chain = LLMChain(prompt=cls.prompt, llm=cls.llm)

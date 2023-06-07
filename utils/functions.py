@@ -2,13 +2,13 @@ import os
 import chromadb
 from chromadb.config import Settings
 import uuid
-from .instructor_embeddings import InstructorEmbeddings
+from . import instructor_embeddings
 
 
 def get_chroma_client():
     chroma_client = chromadb.Client(
         Settings(chroma_api_impl="rest",
-                 chroma_server_host=os.environ.get('CHROMA_SERVER_HOST'),
+                 chroma_server_host=os.environ.get('CHROMA_SERVER_HOST', '165.22.84.221'),
                  chroma_server_http_port="8000"))
     return chroma_client
 
@@ -34,7 +34,8 @@ def get_related_history(user_email, current_input):
     Returns the related history of interactions between the given user and the chatbot
     """
     client = get_chroma_client()
-    instructor_ef = InstructorEmbeddings().get_embedding_function()
+
+    instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
 
     collection = client.get_or_create_collection(name="user_embeddings", embedding_function=instructor_ef)
 
@@ -48,7 +49,7 @@ def get_related_history(user_email, current_input):
 
 def write_current_interaction(user_email, current_interaction):
     client = get_chroma_client()
-    instructor_ef = InstructorEmbeddings().get_embedding_function()
+    instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
 
     collection = client.get_or_create_collection(name="user_embeddings", embedding_function=instructor_ef)
 

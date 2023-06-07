@@ -10,6 +10,6 @@ echo "Starting migrate"
 python3 manage.py migrate
 echo "Finished migrate"
 
-gunicorn app.wsgi:application --bind 0.0.0.0:9000 & # added line for launching the web app using gunicorn
+gunicorn app.wsgi:application --bind 0.0.0.0:5000 # added line for launching the web app using gunicorn
 
 exec "$@"
