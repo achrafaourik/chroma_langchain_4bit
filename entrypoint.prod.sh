@@ -10,14 +10,6 @@ echo "Starting migrate"
 python3 manage.py migrate
 echo "Finished migrate"
 
-# python -m spacy download en_core_web_md
-
-# #echo "Starting Rasa Train model"
-# rasa train
-# #echo "Finised Rasa Train"
-
-# rasa run -m models --enable-api --cors "*" & rasa run actions &
-# echo "starting kobold server"
-# ./play.sh & echo "started kobold server" &
+gunicorn app.wsgi:application --bind 0.0.0.0:9000 & # added line for launching the web app using gunicorn
 
 exec "$@"

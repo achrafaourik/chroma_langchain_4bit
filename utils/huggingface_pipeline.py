@@ -10,13 +10,15 @@ from transformers import AutoTokenizer, pipeline, logging
 from auto_gptq import AutoGPTQForCausalLM, BaseQuantizeConfig
 import os
 import warnings
+from utils.functions import *
 
 
 # Set up logger
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 log = logging.getLogger(__name__)
 
-
+with open('./utils/template_ayumi.txt', 'r') as f:
+    template = convert_to_multiline_string(f.read())
 
 
 class HuggingFaceModel:
@@ -30,12 +32,6 @@ class HuggingFaceModel:
         # Only load one instance of the model
         if cls.qa_pipeline is None:
             # Load the model pipeline.
-            # Note: Usually, this would also download the model.
-            # But, we download the model into the container in the Dockerfile
-            # so that it's built into the container and there's no download at
-            # run time (otherwise, each time we'll download a 1.5GB model).
-            # Loading still takes time, though. So, we do that here.
-            # Note: You can use a GPU here if needed.
             t0 = perf_counter()
             quantized_model_dir = [x for x in os.listdir() if '-GPTQ' in x][0]
 
@@ -59,34 +55,25 @@ class HuggingFaceModel:
                 repetition_penalty=1.15)
             cls.llm = HuggingFacePipeline(pipeline=cls.qa_pipeline)
 
-            cls.template = template
-
-            prompt = PromptTemplate(template=template, input_variables=["question"])
-
-            cls.llm_chain = LLMChain(prompt=prompt, llm=cls.llm)
+            cls.prompt = PromptTemplate(template=template, input_variables=["history", "input"])
+            cls.llm_chain = LLMChain(prompt=cls.prompt, llm=cls.llm)
 
             set_seed(420)
             elapsed = 1000 * (perf_counter() - t0)
             log.info("Model warm-up time: %d ms.", elapsed)
 
     @classmethod
-    def predict(cls, text: str):
+    def predict(cls, history: str, text: str):
 
         # Make sure the model is loaded
         cls.load()
 
-        # For the tutorial, let's create
-        # a custom object from the huggingface prediction.
-        # Our prediction object will include the label and score
-
         t0 = perf_counter()
-        # pylint: disable-next=not-callable
-        generated_text = cls.llm_chain.run(text)
-        # generated_text = generated_text
 
-        # added_text = generated_text[len(text):].strip()
-        # elapsed = 1000 * (perf_counter() - t0)
-        # log.info("Model prediction time: %d ms.", elapsed)
+        # run the predictions using the llm chain
+        generated_text = cls.llm_chain.predict(history=history, input=text)
+        elapsed = 1000 * (perf_counter() - t0)
+        log.info("Model prediction time: %d ms.", elapsed)
 
         # Create the custom prediction object.
         return {"answer": generated_text}

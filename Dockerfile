@@ -1,10 +1,11 @@
 ###########
+
 # BUILDER #
 ###########
 
 # pull official base image
-FROM python:3.7.5 as builder
-
+FROM huggingface/transformers-pytorch-gpu
+# FROM python:3.9.16-slim
 # set work directory
 WORKDIR /usr/src/app
 
@@ -14,28 +15,25 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apt-get update \
-    && apt-get upgrade && apt-get --assume-yes install postgresql postgresql-contrib \
+    && apt-get upgrade -y && apt-get --assume-yes install postgresql postgresql-contrib \
     unixodbc-dev python3-psycopg2 python3-dev gcc netcat vim git-lfs
 
 # install dependencies
-RUN pip install transformers
+RUN pip install --upgrade pip
 RUN git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
 RUN git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ
-RUN pip -q install sentencepiece Xformers einops
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install sentencepiece Xformers einops
+RUN pip install chromadb InstructorEmbedding sentence_transformers
+COPY ./requirements_prod.txt .
+RUN pip install -r requirements_prod.txt
 
-
-# copy entrypoint.sh
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
+# copy entrypoint.prod.sh
+COPY ./entrypoint.prod.sh .
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.prod.sh
+RUN chmod +x /usr/src/app/entrypoint.prod.sh
 
 # copy project
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
-
-
+ENTRYPOINT ["/usr/src/app/entrypoint.prod.sh"]
