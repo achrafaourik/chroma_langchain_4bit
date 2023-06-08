@@ -30,4 +30,4 @@ Current conversation:
 ASSISTANT: Ayumi: It feels really hot in here!
 USER: Then the roleplay chat between You and Ayumi begins.
 USER: You: {input}
-ASSISTANT: Ayumi:
+ASSISTANT: Ayumi: 
