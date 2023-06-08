@@ -13,8 +13,8 @@ class InstructorEmbeddings:
         if cls.instructor_ef is None:
             cls.instructor_ef = embedding_functions.InstructorEmbeddingFunction(
                 model_name="hkunlp/instructor-xl",
-                device="cuda:0",
-                # device="cuda",
+                # device="cuda:0",
+                device="cuda",
                 instruction="Represent this document for roleplay: ")
 
     @classmethod
