@@ -45,7 +45,11 @@ def get_related_history(user_email, current_input):
         where={"email": user_email})
 
     related_interactions = res['documents'][0]
-    return "\n".join(related_interactions)
+    related_history ="\n".join(related_interactions)
+    print(current_input)
+    print(f'related history of the client : {related_history}')
+
+    return related_history
 
 def write_current_interaction(user_email, current_interaction):
     client = get_chroma_client()
