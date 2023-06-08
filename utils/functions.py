@@ -37,7 +37,8 @@ def get_related_history(user_email, current_input):
 
     instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
 
-    collection = client.get_or_create_collection(name="user_embeddings", embedding_function=instructor_ef)
+    collection = client.get_or_create_collection(name="user_embeddings",
+                                                 embedding_function=instructor_ef)
 
     res = collection.query(
         query_texts=[current_input],
@@ -46,6 +47,7 @@ def get_related_history(user_email, current_input):
 
     related_interactions = res['documents'][0]
     related_history ="\n".join(related_interactions)
+
     print('-' * 60)
     print(f'user input: {current_input}')
     print(f'related history of the client:\n{related_history}')
@@ -56,7 +58,8 @@ def write_current_interaction(user_email, current_interaction):
     client = get_chroma_client()
     instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
 
-    collection = client.get_or_create_collection(name="user_embeddings", embedding_function=instructor_ef)
+    collection = client.get_or_create_collection(name="user_embeddings",
+                                                 embedding_function=instructor_ef)
 
     collection.add(
         documents=[current_interaction],
