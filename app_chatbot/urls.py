@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.ChatbotView.as_view(), name="nlp"),
-    path('load/', HuggingFaceModelView.as_view(), name='huggingface')
+    path('load/', LoadModelsView.as_view(), name='huggingface')
 ]
