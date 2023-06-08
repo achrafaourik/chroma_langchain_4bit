@@ -19,7 +19,7 @@ class ChatbotView(APIView):
     def post(self, request):
 
         # retrieve the user email from the incoming request
-        user = request.user  # TODO: replace with self.request.user
+        user = request.user  
         email = user.email
 
         # get the body data from the request
