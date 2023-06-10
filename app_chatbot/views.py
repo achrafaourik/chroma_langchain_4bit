@@ -11,7 +11,6 @@ from utils import functions
 from django.http import HttpResponse
 import os
 from rest_framework import generics, authentication, permissions
-from rest_framework.authtoken.views import ObtainAuthToken
 import numpy as np
 
 
