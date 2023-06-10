@@ -8,7 +8,7 @@ from . import instructor_embeddings
 def get_chroma_client():
     chroma_client = chromadb.Client(
         Settings(chroma_api_impl="rest",
-                 chroma_server_host=os.environ.get('CHROMA_SERVER_HOST', '165.22.84.221'),
+                 chroma_server_host=os.environ.get('CHROMA_SERVER_HOST'),
                  chroma_server_http_port="8000"))
     return chroma_client
 
