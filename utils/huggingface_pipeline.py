@@ -47,8 +47,8 @@ class HuggingFaceModel:
                 "text-generation",
                 model=cls.model,
                 tokenizer=cls.tokenizer,
-                max_new_tokens=240,
-                temperature=0.7,
+                max_new_tokens=250,
+                temperature=0.9,
                 top_p=0.95,
                 repetition_penalty=1.15)
             cls.llm = HuggingFacePipeline(pipeline=cls.qa_pipeline)
