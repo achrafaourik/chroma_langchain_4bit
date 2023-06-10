@@ -39,7 +39,8 @@ class HuggingFaceModel:
             cls.model = AutoGPTQForCausalLM.from_quantized(quantized_model_dir,
                                                        use_safetensors=True,
                                                        model_basename=model_basename,
-                                                       device="cuda:0",
+                                                       device="cuda:0", # TODO: remove this line later
+                                                    #    device_map="auto",
                                                        use_triton=use_triton,
                                                        quantize_config=None)
             cls.qa_pipeline = pipeline(
