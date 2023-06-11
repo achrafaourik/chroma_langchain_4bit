@@ -22,7 +22,7 @@ apt-get --assume-yes install postgresql postgresql-contrib unixodbc-dev python3-
 # Upgrade pip and install dependencies
 pip install --upgrade pip
 git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
-git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ
+git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-30B-Uncensored-GPTQ
 pip install -r requirements_prod.txt
 
 # emtrypoint commands
