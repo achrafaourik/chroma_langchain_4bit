@@ -36,4 +36,4 @@ echo "Starting migrate"
 python3 manage.py migrate
 echo "Finished migrate"
 
-gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0
+gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0 &
