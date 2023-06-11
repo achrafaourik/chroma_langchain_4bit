@@ -31,15 +31,7 @@ class LoadModelsView(APIView):
         # For example, return it as a JSON response
         return Response({'message': 'Models successfully loaded'})
 
-# Create an instance of HuggingFaceModel
-huggingface_model = HuggingFaceModel()
-instructor_model = InstructorEmbeddings()
-emotion_model = EmotionClassifier()
 
-# Run the 'load' method
-huggingface_model.load()
-instructor_model.load()
-emotion_model.load()
 
 
 class ChatbotView(APIView):
@@ -47,6 +39,16 @@ class ChatbotView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
+
+        # Create instances of models
+        huggingface_model = HuggingFaceModel()
+        instructor_model = InstructorEmbeddings()
+        emotion_model = EmotionClassifier()
+
+        # Run the 'load' method
+        huggingface_model.load()
+        instructor_model.load()
+        emotion_model.load()
 
         # # retrieve the user email from the incoming request
         # user = request.user
