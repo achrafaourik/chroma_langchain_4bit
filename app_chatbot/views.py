@@ -31,6 +31,16 @@ class LoadModelsView(APIView):
         # For example, return it as a JSON response
         return Response({'message': 'Models successfully loaded'})
 
+# Create an instance of HuggingFaceModel
+huggingface_model = HuggingFaceModel()
+instructor_model = InstructorEmbeddings()
+emotion_model = EmotionClassifier()
+
+# Run the 'load' method
+huggingface_model.load()
+instructor_model.load()
+emotion_model.load()
+
 
 class ChatbotView(APIView):
     # authentication_classes = [authentication.TokenAuthentication]
