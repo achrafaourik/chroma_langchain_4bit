@@ -38,16 +38,19 @@ class ChatbotView(APIView):
 
     def post(self, request):
 
-        # retrieve the user email from the incoming request
-        user = request.user
-        email = user.email
+        # # retrieve the user email from the incoming request
+        # user = request.user
+        # email = user.email
 
-        # get the body data from the request
+        # # get the body data from the request
         data = request.data
         text = data['message']
 
-        # get related history
-        history = functions.get_related_history(email, text)
+        # # get related history
+        # history = functions.get_related_history(email, text)
+
+        # TODO: uncomment earlier lines later
+        history = ''
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
@@ -55,15 +58,17 @@ class ChatbotView(APIView):
         print(f"bot's answer: \n{answer}")
 
         # write the current interaction to ChromaDB
-        current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
-        functions.write_current_interaction(email, current_interaction)
+        # current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
+        # functions.write_current_interaction(email, current_interaction)
 
         # get the list of emotions
-        classifier = EmotionClassifier().get_classifier()
-        list_emotions = classifier(answer)
-        scores = [x['score'] for x in list_emotions[0]]
-        single_emotion = list_emotions[0][np.argmax(scores)]['label']
+        # classifier = EmotionClassifier().get_classifier()
+        # list_emotions = classifier(answer)
+        # scores = [x['score'] for x in list_emotions[0]]
+        # single_emotion = list_emotions[0][np.argmax(scores)]['label']
 
-        return Response({'answer': answer,
-                         'list_emotions': list_emotions,
-                         'single_emotion': single_emotion})
+        # return Response({'answer': answer,
+        #                  'list_emotions': list_emotions,
+        #                  'single_emotion': single_emotion})
+
+        return Response({'answer': answer})
