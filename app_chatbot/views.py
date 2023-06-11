@@ -33,8 +33,8 @@ class LoadModelsView(APIView):
 
 
 class ChatbotView(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    # authentication_classes = [authentication.TokenAuthentication]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
 
