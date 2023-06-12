@@ -22,7 +22,7 @@ apt-get --assume-yes install postgresql postgresql-contrib unixodbc-dev python3-
 # Upgrade pip and install dependencies
 pip install --upgrade pip
 git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
-git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-30B-Uncensored-GPTQ
+git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ
 pip install -r requirements_prod.txt
 
 # emtrypoint commands
@@ -36,4 +36,4 @@ echo "Starting migrate"
 python3 manage.py migrate
 echo "Finished migrate"
 
-gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0 &
+# gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0 &
