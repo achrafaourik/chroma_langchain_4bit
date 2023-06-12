@@ -69,9 +69,9 @@ class ChatbotView(APIView):
         answer = model.predict(history, text)['answer']
         print(f"bot's answer: \n{answer}")
 
-        # write the current interaction to ChromaDB
-        # current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
-        # functions.write_current_interaction(email, current_interaction)
+        write the current interaction to ChromaDB
+        current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
+        functions.write_current_interaction(email, current_interaction)
 
         # get the list of emotions
         # classifier = EmotionClassifier().get_classifier()
