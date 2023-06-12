@@ -52,17 +52,17 @@ class ChatbotView(APIView):
 
         # # retrieve the user email from the incoming request
         # user = request.user
-        # email = user.email
+        email = "user@email.com"
 
         # # get the body data from the request
         data = request.data
         text = data['message']
 
         # # get related history
-        # history = functions.get_related_history(email, text)
+        history = functions.get_related_history(email, text)
 
         # TODO: uncomment earlier lines later
-        history = ''
+        # history = ''
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
