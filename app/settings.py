@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework.authtoken",
     "app_chatbot",
-    # "banking",
     "django_filters",
 ]
 
