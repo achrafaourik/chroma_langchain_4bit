@@ -84,3 +84,30 @@ class ChatbotView(APIView):
         #                  'single_emotion': single_emotion})
 
         return Response({'answer': answer})
+
+
+class CatbotView(APIView):
+
+    def post(self, request):
+
+        # # retrieve the user email from the incoming request
+        user = request.user
+        email = request.email
+
+        # # get the body data from the request
+        data = request.data
+        text = data['message']
+
+        # # get related history
+        history = functions.get_related_history(email, text)
+
+        # instantiate the model class and perform the prediction
+        model = HuggingFaceModel()
+        answer = model.predict(history, text)['answer']
+        print(f"bot's answer: \n{answer}")
+
+        # write the current interaction to ChromaDB
+        current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
+        functions.write_current_interaction(email, current_interaction)
+
+        return Response({'answer': answer})

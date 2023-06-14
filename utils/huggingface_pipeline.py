@@ -47,19 +47,10 @@ class HuggingFaceModel:
                 "text-generation",
                 model=cls.model,
                 tokenizer=cls.tokenizer,
-                max_new_tokens=250,
+                max_new_tokens=50,
                 temperature=0.9,
                 top_p=0.95,
-                typical_p = 1,
-                repetition_penalty = 1.1,
-                encoder_repetition_penalty = 1,
-                top_k = 0,
-                min_length = 0,
-                no_repeat_ngram_size = 0,
-                num_beams = 1,
-                penalty_alpha = 0,
-                length_penalty = 1,
-                early_stopping = False)
+                repetition_penalty=1.15)
             cls.llm = HuggingFacePipeline(pipeline=cls.qa_pipeline)
 
             # responses=[" default response"]
