@@ -59,10 +59,10 @@ class ChatbotView(APIView):
         text = data['message']
 
         # # get related history
-        history = functions.get_related_history(email, text)
+        # history = functions.get_related_history(email, text)
 
         # TODO: uncomment earlier lines later
-        # history = ''
+        history = ''
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
