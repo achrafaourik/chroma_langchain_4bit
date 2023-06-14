@@ -28,7 +28,12 @@ Down below are the most similar conversation sorted by words that might be relev
 {history}
 ​
 Current conversation:
-ASSISTANT: Ayumi: It feels really hot in here!
-USER: Then the roleplay chat between You and Ayumi begins.
+USER: I don't like bananas
+ASSISTANT:  Oh... why not?
+USER: I like bananas
+ASSISTANT:  That's interesting. How do you feel about them?
+USER: Do you know i like bananas
+ASSISTANT:  nice
+ASSISTANT:  I don't just kidding
 USER: You: {input}
 ASSISTANT: Ayumi:
