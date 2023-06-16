@@ -277,18 +277,14 @@ class ExLlamaGenerator:
         ids = self.tokenizer.encode(prompt)
         self.gen_begin(ids)
 
-        previous_token = None
-        target_sequence = [29871, 13]
 
         for i in range(max_new_tokens):
             token = self.gen_single_token()
-            if previous_token == target_sequence[0] and token.item() == target_sequence[1]:
-                print("Found the target sequence!")
+            if token.item() == 584:
+                print("Found the semi colon!")
                 break
             elif token.item() == self.tokenizer.eos_token_id:
                 break
-            previous_token = token.item()
-            print(previous_token, token.item())
 
         text = self.tokenizer.decode(self.sequence[0])
         return text
