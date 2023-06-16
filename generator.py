@@ -277,15 +277,18 @@ class ExLlamaGenerator:
         ids = self.tokenizer.encode(prompt)
         self.gen_begin(ids)
 
-        generated_tokens_ids = []
+        previous_token = None
+        target_sequence = [29871, 13]
 
         for i in range(max_new_tokens):
             token = self.gen_single_token()
-            generated_tokens_ids.append(token.item())
-            if token.item() == self.tokenizer.eos_token_id: break
-        print(generated_tokens_ids)
-        print(self.sequence[0])
-        print('-' * 80)
+            if previous_token == target_sequence[0] and token.item() == target_sequence[1]:
+                print("Found the target sequence!")
+                break
+            elif token.item() == self.tokenizer.eos_token_id:
+                break
+            previous_token = token.item()
+
         text = self.tokenizer.decode(self.sequence[0])
         return text
 
