@@ -277,10 +277,15 @@ class ExLlamaGenerator:
         ids = self.tokenizer.encode(prompt)
         self.gen_begin(ids)
 
+        generated_tokens_ids = []
+
         for i in range(max_new_tokens):
             token = self.gen_single_token()
-            if token.item() in [self.tokenizer.eos_token_id, 'You']: break
-
+            print(token.item())
+            token_id = self.tokenizer.encode(token)
+            generated_tokens_ids.append(token_id)
+            if token.item() == self.tokenizer.eos_token_id: break
+        print(generated_tokens_ids)
         text = self.tokenizer.decode(self.sequence[0])
         return text
 
