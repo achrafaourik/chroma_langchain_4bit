@@ -279,7 +279,7 @@ class ExLlamaGenerator:
 
         for i in range(max_new_tokens):
             token = self.gen_single_token()
-            if token.item() == self.tokenizer.eos_token_id: break
+            if token.item() in [self.tokenizer.eos_token_id, 'You']: break
 
         text = self.tokenizer.decode(self.sequence[0])
         return text
