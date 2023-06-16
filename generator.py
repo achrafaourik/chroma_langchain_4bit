@@ -288,6 +288,7 @@ class ExLlamaGenerator:
             elif token.item() == self.tokenizer.eos_token_id:
                 break
             previous_token = token.item()
+            print(previous_token, token.item())
 
         text = self.tokenizer.decode(self.sequence[0])
         return text
