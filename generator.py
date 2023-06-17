@@ -280,6 +280,7 @@ class ExLlamaGenerator:
 
         for i in range(max_new_tokens):
             token = self.gen_single_token()
+            print(token.item())
             if token.item() == 584:
                 print("Found the semi colon!")
                 break
