@@ -8,13 +8,12 @@ from utils.huggingface_pipeline import HuggingFaceModel
 from utils.instructor_embeddings import InstructorEmbeddings
 from utils.emotion_pipeline import EmotionClassifier
 from utils import functions
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import os
 from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 import numpy as np
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
-from django.http import HttpResponse
 from django.views import View
 
 
@@ -29,6 +28,28 @@ class GoogleAuthCallbackView(View):
             # No code was provided
             return HttpResponse("No authorization code was provided.", status=400)
 
+
+class GoogleAuthTokenView(View):
+    def post(self, request, *args, **kwargs):
+        auth_code = request.POST.get('code', None)
+        if auth_code is None:
+            return HttpResponseBadRequest("Missing authorization code.")
+
+        data = {
+            'code': auth_code,
+            'client_id': '436766376383-rb4i7732u7fp14vae32th922t6cijv6j.apps.googleusercontent.com',
+            'client_secret': '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',
+            'redirect_uri': 'http://localhost:8000/oauth2callback',
+            'grant_type': 'authorization_code',
+        }
+
+        response = requests.post('https://oauth2.googleapis.com/token', data=data)
+
+        if response.status_code == 200:
+            token_data = response.json()
+            return JsonResponse(token_data)
+        else:
+            return JsonResponse({"error": "Failed to retrieve access token."}, status=400)
 
 
 class LoadModelsView(APIView):
