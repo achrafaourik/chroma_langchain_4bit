@@ -49,7 +49,8 @@ class GoogleAuthTokenView(View):
             token_data = response.json()
             return JsonResponse(token_data)
         else:
-            return JsonResponse({"error": "Failed to retrieve access token."}, status=400)
+            error_data = response.json()
+            return JsonResponse({"error": "Failed to retrieve access token.", "details": error_data}, status=400)
 
 
 class LoadModelsView(APIView):
