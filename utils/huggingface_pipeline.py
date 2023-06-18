@@ -30,7 +30,7 @@ class HuggingFaceModel:
         if cls.llm_chain is None:
             # Load the model pipeline.
             t0 = perf_counter()
-            quantized_model_dir = [x for x in os.listdir() if '-GPTQ' in x][0]
+            quantized_model_dir = [os.path.join('models', x) for x in os.listdir('models') if '-GPTQ' in x][0]
 
             model_basename = [x.split('.safetensors')[0] for x in os.listdir(quantized_model_dir) if x.endswith('safetensors')][0]
             use_triton = False
