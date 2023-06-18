@@ -82,7 +82,7 @@ class ExLlamaGenerator:
         # Top P
 
         if top_p > 0.0:
-
+            top_probs = top_probs / torch.sum(top_probs, dim = -1) # TODO: check if this line helps
             num_top_p_probs = 0
             cum_prob = top_probs[0].item()
             while True:

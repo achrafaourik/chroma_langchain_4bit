@@ -14,6 +14,20 @@ from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 import numpy as np
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from django.http import HttpResponse
+from django.views import View
+
+
+class GoogleAuthCallbackView(View):
+    def get(self, request, *args, **kwargs):
+        auth_code = request.GET.get('code', None)
+        if auth_code is not None:
+            # The authorization code is available as `auth_code`
+            # You can now proceed to exchange it for an access token
+            return HttpResponse(f"Authorization code: {auth_code}")
+        else:
+            # No code was provided
+            return HttpResponse("No authorization code was provided.", status=400)
 
 
 
