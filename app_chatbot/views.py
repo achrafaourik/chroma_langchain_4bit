@@ -8,7 +8,7 @@ from utils.huggingface_pipeline import HuggingFaceModel
 from utils.instructor_embeddings import InstructorEmbeddings
 from utils.emotion_pipeline import EmotionClassifier
 from utils import functions
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 import os
 from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
