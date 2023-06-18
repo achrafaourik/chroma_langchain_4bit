@@ -13,6 +13,8 @@ import os
 from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 import numpy as np
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+
 
 
 class LoadModelsView(APIView):
@@ -35,8 +37,8 @@ class LoadModelsView(APIView):
 
 
 class ChatbotView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication]
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
 
