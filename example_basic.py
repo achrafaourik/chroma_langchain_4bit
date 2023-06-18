@@ -29,10 +29,10 @@ generator = ExLlamaGenerator(model, tokenizer, cache)   # create generator
 
 generator.disallow_tokens([tokenizer.eos_token_id])
 
-generator.settings.token_repetition_penalty_max = 1.2
+generator.settings.token_repetition_penalty_max = 1.15
 generator.settings.temperature = 0.95
-generator.settings.top_p = 0.65
-generator.settings.top_k = 100
+generator.settings.top_p = 1.0
+generator.settings.top_k = 50
 generator.settings.typical = 0.5
 
 # Produce a simple generation
