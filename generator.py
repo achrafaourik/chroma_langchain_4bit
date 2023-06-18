@@ -280,12 +280,8 @@ class ExLlamaGenerator:
 
         for i in range(max_new_tokens):
             token = self.gen_single_token()
-            if token.item() == 584:
-                print("Found the semi colon!")
+            if token.item() in [13, self.tokenizer.eos_token_id]:
                 break
-            elif token.item() == self.tokenizer.eos_token_id:
-                break
-
         text = self.tokenizer.decode(self.sequence[0])
         return text
 
