@@ -54,14 +54,41 @@ def get_related_history(user_email, current_input):
 
     return related_history
 
+def return_last_n_interactions(user_email, n_interactions):
+    client = get_chroma_client()
+
+    collection = client.get_or_create_collection(name="user_embeddings")
+
+    res = collection.get(where={'email': user_email}, include=["metadatas"])
+    if len(res['metadatas']) == 0:
+        return ['']
+    else:
+        nbr_last_interaction = max([x['nbr_inter'] for x in res['metadatas']])
+        last_interactions = collection.get(where={
+        "$and": [{"email": {'$eq': 'user@mail.com'}},
+                 {"nbr_inter": {'$gte': nbr_last_interaction - n_interactions + 1}}]})['documents']
+        return last_interactions
+
 def write_current_interaction(user_email, current_interaction):
     client = get_chroma_client()
     instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
 
     collection = client.get_or_create_collection(name="user_embeddings",
                                                  embedding_function=instructor_ef)
+    nbr_interaction = get_nbr_last_interaction(user_email) + 1
 
     collection.add(
         documents=[current_interaction],
-        metadatas=[{'email': user_email}],
+        metadatas=[{'email': user_email, 'nbr_inter': nbr_interaction}],
         ids=generate_unique_id())
+
+def get_nbr_last_interaction(user_email):
+    client = get_chroma_client()
+    collection = client.get_or_create_collection(name="user_embeddings")
+
+    res = collection.get(where={'email': user_email}, include=["metadatas"])
+    if len(res['metadatas']) == 0:
+        return 0
+    else:
+        nbr_last_interaction = max([x['nbr_inter'] for x in res['metadatas']])
+        return nbr_last_interaction
