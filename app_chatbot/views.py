@@ -96,15 +96,18 @@ class ChatbotView(APIView):
         data = request.data
         text = data['message']
 
-        # # get related history
-        # history = functions.get_related_history(email, text)
+        # get related history
+        related_history = functions.get_related_history(email, text)
 
-        # TODO: uncomment earlier lines later
-        history = ''
+        # # TODO: uncomment earlier lines later
+        # history = ''
+
+        # get the last n conversations
+        past_conversations = functions.return_last_n_interactions(email, os.environ.get('N_RELATED_INTERACTIONS'))
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
-        answer = model.predict(history, text)['answer']
+        answer = model.predict(related_history, past_conversations, text)['answer']
         print(f"bot's answer: \n{answer}")
 
         # write the current interaction to ChromaDB

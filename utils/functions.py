@@ -61,13 +61,13 @@ def return_last_n_interactions(user_email, n_interactions):
 
     res = collection.get(where={'email': user_email}, include=["metadatas"])
     if len(res['metadatas']) == 0:
-        return ['']
+        return ''
     else:
         nbr_last_interaction = max([x['nbr_inter'] for x in res['metadatas']])
         last_interactions = collection.get(where={
         "$and": [{"email": {'$eq': 'user@mail.com'}},
                  {"nbr_inter": {'$gte': nbr_last_interaction - n_interactions + 1}}]})['documents']
-        return last_interactions
+        return '\n'.join(last_interactions)
 
 def write_current_interaction(user_email, current_interaction):
     client = get_chroma_client()
