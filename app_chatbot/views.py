@@ -117,10 +117,11 @@ class ChatbotView(APIView):
         # get the list of emotions
         classifier = EmotionClassifier().get_classifier()
         list_emotions = classifier(answer)
+        single_emotion = list_emotions[0][np.argmax(scores)]['label']
         labels = [x['label'] for x in list_emotions[0]]
         scores = [str(round(x['score'], 2)* 100) + '%'  for x in list_emotions[0]]
         list_emotions = [dict(zip(labels, scores))]
-        single_emotion = list_emotions[0][np.argmax(scores)]['label']
+
 
         return Response({'answer': answer,
                          'list_emotions': list_emotions,
