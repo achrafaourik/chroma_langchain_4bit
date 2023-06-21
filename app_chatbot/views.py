@@ -87,8 +87,8 @@ class ChatbotView(APIView):
         emotion_model.load()
 
         # # retrieve the user email from the incoming request
-        # user = request.user
-        email = request.email
+        user = request.user
+        email = user.email
 
         # # get the body data from the request
         data = request.data
