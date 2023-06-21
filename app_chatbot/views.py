@@ -103,7 +103,7 @@ class ChatbotView(APIView):
         # get the last n conversations
         past_conversations = functions.return_last_n_interactions(email,
                                                                   int(os.environ.get('N_RELATED_INTERACTIONS')))
-        print(f'past 5 conversations of the client : {past_conversations}')
+        print(f'past 5 conversations of the client : \n{past_conversations}')
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
@@ -115,16 +115,16 @@ class ChatbotView(APIView):
         functions.write_current_interaction(email, current_interaction)
 
         # get the list of emotions
-        # classifier = EmotionClassifier().get_classifier()
-        # list_emotions = classifier(answer)
-        # scores = [x['score'] for x in list_emotions[0]]
-        # single_emotion = list_emotions[0][np.argmax(scores)]['label']
+        classifier = EmotionClassifier().get_classifier()
+        list_emotions = classifier(answer)
+        scores = [x['score'] for x in list_emotions[0]]
+        single_emotion = list_emotions[0][np.argmax(scores)]['label']
 
-        # return Response({'answer': answer,
-        #                  'list_emotions': list_emotions,
-        #                  'single_emotion': single_emotion})
+        return Response({'answer': answer,
+                         'list_emotions': list_emotions,
+                         'single_emotion': single_emotion})
 
-        return Response({'answer': answer})
+        # return Response({'answer': answer})
 
 
 class CatbotView(APIView):
