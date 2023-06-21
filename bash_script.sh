@@ -25,7 +25,7 @@ pip install --upgrade pip
 git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
 # git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ
 mkdir -p models
-python3 download-model.py --threads 5 TheBloke/Manticore-13B-GPTQ
+python3 download-model.py TheBloke/Manticore-13B-GPTQ
 pip install -r requirements_prod.txt
 
 # emtrypoint commands

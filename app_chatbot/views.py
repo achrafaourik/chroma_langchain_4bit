@@ -70,8 +70,6 @@ class LoadModelsView(APIView):
         return Response({'message': 'Models successfully loaded'})
 
 
-
-
 class ChatbotView(APIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
@@ -103,7 +101,7 @@ class ChatbotView(APIView):
         # history = ''
 
         # get the last n conversations
-        past_conversations = functions.return_last_n_interactions(email, os.environ.get('N_RELATED_INTERACTIONS'))
+        past_conversations = functions.return_last_n_interactions(email, int(os.environ.get('N_RELATED_INTERACTIONS')))
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
