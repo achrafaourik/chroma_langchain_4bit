@@ -65,7 +65,7 @@ def return_last_n_interactions(user_email, n_interactions):
     else:
         nbr_last_interaction = max([x['nbr_inter'] for x in res['metadatas']])
         last_interactions = collection.get(where={
-        "$and": [{"email": {'$eq': 'user@mail.com'}},
+        "$and": [{"email": {'$eq': user_email}},
                  {"nbr_inter": {'$gte': nbr_last_interaction - n_interactions + 1}}]})['documents']
         return '\n'.join(last_interactions)
 

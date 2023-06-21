@@ -101,7 +101,8 @@ class ChatbotView(APIView):
         # history = ''
 
         # get the last n conversations
-        past_conversations = functions.return_last_n_interactions(email, int(os.environ.get('N_RELATED_INTERACTIONS')))
+        past_conversations = functions.return_last_n_interactions(email,
+                                                                  int(os.environ.get('N_RELATED_INTERACTIONS')))
         print(f'past 5 conversations of the client : {past_conversations}')
 
         # instantiate the model class and perform the prediction
