@@ -88,7 +88,7 @@ class ChatbotView(APIView):
 
         # # retrieve the user email from the incoming request
         # user = request.user
-        email = "user2@email.com"
+        email = request.email
 
         # # get the body data from the request
         data = request.data
