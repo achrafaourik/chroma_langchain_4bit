@@ -93,3 +93,10 @@ def get_nbr_last_interaction(user_email):
     else:
         nbr_last_interaction = max([x['nbr_inter'] for x in res['metadatas']])
         return nbr_last_interaction
+
+
+def delete_past_history(user_email):
+    client = get_chroma_client()
+    collection = client.get_or_create_collection(name="user_embeddings")
+
+    collection.delete(where={'email': user_email})

@@ -128,7 +128,18 @@ class ChatbotView(APIView):
                          'list_emotions': list_emotions,
                          'single_emotion': single_emotion})
 
-        # return Response({'answer': answer})
+
+class DeleteHistoryView(APIView):
+
+    def post(self, request):
+
+        # # retrieve the user email from the incoming request
+        user = request.user
+        email = request.email
+
+        functions.delete_past_history(user_email)
+
+        return Response({'message': 'History deleted successfully'})
 
 
 class CatbotView(APIView):
