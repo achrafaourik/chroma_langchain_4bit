@@ -29,4 +29,5 @@ urlpatterns = [
         name='api-docs'),
     path('bot/', include("app_chatbot.urls")),
     path('api/user/', include('user.urls')),
+    path('api/items/', include('items.urls')),
 ]
