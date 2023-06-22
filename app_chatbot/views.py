@@ -15,6 +15,9 @@ from rest_framework.authtoken.views import ObtainAuthToken
 import numpy as np
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from django.views import View
+from core.models import Item
+from django.forms.models import model_to_dict
+
 
 
 class GoogleAuthCallbackView(View):
@@ -90,7 +93,16 @@ class ChatbotView(APIView):
         user = request.user
         email = user.email
 
-        # # get the body data from the request
+        # Fetch all items associated with the current user
+        user_items = Item.objects.filter(user=user)
+        # Convert the QuerySet to a list of Item objects
+        user_items_list = list(user_items)
+
+        # Convert each Item object in the list to a dictionary
+        user_items_dict_list = [model_to_dict(item) for item in user_items_list]
+        print(f'the list of user items: {user_items_dict_list}')
+
+        # get the body data from the request
         data = request.data
         text = data['message']
 
