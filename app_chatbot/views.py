@@ -7,6 +7,7 @@ import json
 from utils.huggingface_pipeline import HuggingFaceModel
 from utils.instructor_embeddings import InstructorEmbeddings
 from utils.emotion_pipeline import EmotionClassifier
+from utils.nsfw_classifier import NSFWClassifier
 from utils import functions
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 import os
@@ -83,11 +84,13 @@ class ChatbotView(APIView):
         huggingface_model = HuggingFaceModel()
         instructor_model = InstructorEmbeddings()
         emotion_model = EmotionClassifier()
+        nfsw_model = NSFWClassifier()
 
         # Run the 'load' method
         huggingface_model.load()
         instructor_model.load()
         emotion_model.load()
+        nfsw_model.load()
 
         # # retrieve the user email from the incoming request
         user = request.user
