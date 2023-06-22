@@ -109,6 +109,10 @@ class ChatbotView(APIView):
         data = request.data
         text = data['message']
 
+        # predict nsfw score for the user message
+        nswf_classifier = nsfw_model.get_classifier()
+        print(nswf_classifier(text))
+
         # get related history
         related_history = functions.get_related_history(email, text)
 
