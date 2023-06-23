@@ -75,7 +75,6 @@ class ChatbotView(APIView):
         email = user.email
 
         # Fetch all items associated with the current user
-        user_items = Item.objects.filter(user=user)
         user_items_list = list(Item.objects.filter(user=user))
         user_items_dict_list = [model_to_dict(item) for item in user_items_list]
         list_items = [x['name'] for x in user_items_dict_list]

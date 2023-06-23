@@ -16,15 +16,6 @@ def get_chroma_client():
     return chroma_client
 
 def convert_to_multiline_string(string_variable):
-    """
-    Converts a regular string to a multiline string.
-
-    Args:
-        string_variable (str): The regular string to be converted.
-
-    Returns:
-        str: The converted multiline string.
-    """
     multiline_string = f"""{string_variable}"""
     return multiline_string
 
@@ -51,7 +42,6 @@ def get_related_history(user_email, current_input):
     related_interactions = res['documents'][0]
     related_history ="\n".join(related_interactions)
 
-    print('-' * 60)
     print(f'user input: {current_input}')
     print(f'related history of the client:\n{related_history}')
 
