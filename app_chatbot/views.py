@@ -139,6 +139,9 @@ class ChatbotView(APIView):
 
 
 class DeleteHistoryView(APIView):
+    authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
+    permission_classes = [permissions.IsAuthenticated]
+    
     def post(self, request):
         # # retrieve the user email from the incoming request
         user = request.user
