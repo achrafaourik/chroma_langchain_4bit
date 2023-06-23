@@ -63,11 +63,13 @@ class LoadModelsView(APIView):
         huggingface_model = HuggingFaceModel()
         instructor_model = InstructorEmbeddings()
         emotion_model = EmotionClassifier()
+        nsfw_model = NSFWClassifier()
 
         # Run the 'load' method
         huggingface_model.load()
         instructor_model.load()
         emotion_model.load()
+        nsfw_model.load()
 
         # You can perform further operations with the result if needed
         # For example, return it as a JSON response
