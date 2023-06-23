@@ -12,7 +12,7 @@ class NSFWClassifier:
         # Only load one instance of the model
         if cls.classifier is None:
             cls.classifier = pipeline("sentiment-analysis",
-                                      model="michellejieli/NSFW_text_classification")
+                                      model="michellejieli/NSFW_text_classifier")
 
 
     @classmethod
