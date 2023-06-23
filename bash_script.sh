@@ -22,7 +22,8 @@ apt-get --assume-yes install postgresql postgresql-contrib unixodbc-dev python3-
 # Upgrade pip and install dependencies
 # pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 pip install --upgrade pip
-git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
+# git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
+pip install auto-gptq
 # git lfs clone https://huggingface.co/TheBloke/Wizard-Vicuna-13B-Uncensored-GPTQ
 mkdir -p models
 python3 download-model.py TheBloke/Manticore-13B-GPTQ

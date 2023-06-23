@@ -86,7 +86,7 @@ class ChatbotView(APIView):
         # predict nsfw score for the user message
         nsfw_classifier = nsfw_model.get_classifier()
         if 'VIP' not in list_items:
-            score = nsfw_classifier(text)[0]['score']
+            score = nsfw_classifier(text)[0]['score'] #TODO get for label NSFW only
             if score >= 0.7:
                 return Response({'answer': 'NO VIP NSFW'})
 
