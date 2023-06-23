@@ -113,7 +113,7 @@ class ChatbotView(APIView):
         scores = [x['score'] for x in list_emotions[0]]
         single_emotion = list_emotions[0][np.argmax(scores)]['label']
         labels = [x['label'] for x in list_emotions[0]]
-        scores = [str(round(x['score'], 2)* 100) + '%'  for x in list_emotions[0]]
+        scores = [round(x['score'], 2) * 100  for x in list_emotions[0]]
         list_emotions = [dict(zip(labels, scores))]
 
         return Response({'answer': answer,
