@@ -144,6 +144,6 @@ class DeleteHistoryView(APIView):
         user = request.user
         email = user.email
 
-        functions.delete_past_history(user_email)
+        functions.delete_past_history(email)
 
         return Response({'message': 'History deleted successfully'})
