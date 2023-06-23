@@ -102,10 +102,10 @@ class ChatbotView(APIView):
 
         # predict nsfw score for the user message
         nsfw_classifier = NSFWClassifier().get_classifier()
-        if 'VIP' not in list_items:
-            label = nsfw_classifier(text)[0]['label']
-            if label == 'NSFW':
-                return Response({'answer': 'NO VIP NSFW'})
+        # if 'VIP' not in list_items:
+        #     label = nsfw_classifier(text)[0]['label']
+        #     if label == 'NSFW':
+        #         return Response({'answer': 'NO VIP NSFW'})
 
         # get related history
         related_history = functions.get_related_history(email, text)
