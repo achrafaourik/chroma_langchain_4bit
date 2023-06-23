@@ -5,7 +5,6 @@ from rest_framework.response import Response
 import requests
 import json
 from utils import functions
-from utils.huggingface_pipeline import HuggingFaceModel, load_models
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 import os
 from rest_framework import generics, authentication, permissions
@@ -15,7 +14,25 @@ from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from django.views import View
 from core.models import Item
 from django.forms.models import model_to_dict
+from utils.huggingface_pipeline import HuggingFaceModel
+from utils.instructor_embeddings import InstructorEmbeddings
+from utils.emotion_pipeline import EmotionClassifier
+from utils.nsfw_classifier import NSFWClassifier
 
+
+
+def load_models():
+    # Create an instance of HuggingFaceModel
+    huggingface_model = HuggingFaceModel()
+    instructor_model = InstructorEmbeddings()
+    emotion_model = EmotionClassifier()
+    nsfw_model = NSFWClassifier()
+
+    # Run the 'load' method
+    huggingface_model.load()
+    instructor_model.load()
+    emotion_model.load()
+    nsfw_model.load()
 
 
 class GoogleAuthCallbackView(View):
