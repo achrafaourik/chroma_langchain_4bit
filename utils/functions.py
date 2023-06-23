@@ -58,7 +58,8 @@ def return_last_n_interactions(user_email, n_interactions):
         last_interactions = collection.get(where={
         "$and": [{"email": {'$eq': user_email}},
                  {"nbr_inter": {'$gte': nbr_last_interaction - n_interactions + 1}}]})
-        l = sorted(list(zip([x['nbr_inter'] for x in last_interactions['metadatas']], last_interactions['documents'])))
+        l = sorted(list(zip([x['nbr_inter'] for x in last_interactions['metadatas']],
+                            last_interactions['documents'])))
         return '\n'.join([x[1] for x in l])
 
 def write_current_interaction(user_email, current_interaction):
