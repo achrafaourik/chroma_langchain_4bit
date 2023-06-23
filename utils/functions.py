@@ -2,6 +2,7 @@ import os
 import chromadb
 from chromadb.config import Settings
 import uuid
+from utils.instructor_embeddings import InstructorEmbeddings
 
 
 
