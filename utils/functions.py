@@ -2,7 +2,10 @@ import os
 import chromadb
 from chromadb.config import Settings
 import uuid
-from . import instructor_embeddings
+from utils.huggingface_pipeline import HuggingFaceModel
+from utils.instructor_embeddings import InstructorEmbeddings
+from utils.emotion_pipeline import EmotionClassifier
+from utils.nsfw_classifier import NSFWClassifier
 
 
 def get_chroma_client():
@@ -35,7 +38,7 @@ def get_related_history(user_email, current_input):
     """
     client = get_chroma_client()
 
-    instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
+    instructor_ef = InstructorEmbeddings().get_embedding_function()
 
     collection = client.get_or_create_collection(name="user_embeddings",
                                                  embedding_function=instructor_ef)
@@ -72,7 +75,7 @@ def return_last_n_interactions(user_email, n_interactions):
 
 def write_current_interaction(user_email, current_interaction):
     client = get_chroma_client()
-    instructor_ef = instructor_embeddings.InstructorEmbeddings().get_embedding_function()
+    instructor_ef = InstructorEmbeddings().get_embedding_function()
 
     collection = client.get_or_create_collection(name="user_embeddings",
                                                  embedding_function=instructor_ef)
@@ -100,3 +103,17 @@ def delete_past_history(user_email):
     collection = client.get_or_create_collection(name="user_embeddings")
 
     collection.delete(where={'email': user_email})
+
+
+def load_models():
+    # Create an instance of HuggingFaceModel
+    huggingface_model = HuggingFaceModel()
+    instructor_model = InstructorEmbeddings()
+    emotion_model = EmotionClassifier()
+    nsfw_model = NSFWClassifier()
+
+    # Run the 'load' method
+    huggingface_model.load()
+    instructor_model.load()
+    emotion_model.load()
+    nsfw_model.load()

@@ -4,11 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
 import json
-from utils.huggingface_pipeline import HuggingFaceModel
-from utils.instructor_embeddings import InstructorEmbeddings
-from utils.emotion_pipeline import EmotionClassifier
-from utils.nsfw_classifier import NSFWClassifier
 from utils import functions
+from utils.huggingface_pipeline import HuggingFaceModel
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 import os
 from rest_framework import generics, authentication, permissions
@@ -59,21 +56,9 @@ class GoogleAuthTokenView(View):
 
 class LoadModelsView(APIView):
     def get(self, request):
-        # Create an instance of HuggingFaceModel
-        huggingface_model = HuggingFaceModel()
-        instructor_model = InstructorEmbeddings()
-        emotion_model = EmotionClassifier()
-        nsfw_model = NSFWClassifier()
-
-        # Run the 'load' method
-        huggingface_model.load()
-        instructor_model.load()
-        emotion_model.load()
-        nsfw_model.load()
-
-        # You can perform further operations with the result if needed
-        # For example, return it as a JSON response
+        functions.load_models()
         return Response({'message': 'Models successfully loaded'})
+
 
 
 class ChatbotView(APIView):
@@ -81,18 +66,9 @@ class ChatbotView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-
-        # Create instances of models
-        huggingface_model = HuggingFaceModel()
-        instructor_model = InstructorEmbeddings()
-        emotion_model = EmotionClassifier()
-        nsfw_model = NSFWClassifier()
-
-        # Run the 'load' method
-        huggingface_model.load()
-        instructor_model.load()
-        emotion_model.load()
-        nsfw_model.load()
+        print('-' * 80)
+        # Load models
+        functions.load_models()
 
         # # retrieve the user email from the incoming request
         user = request.user
@@ -100,12 +76,8 @@ class ChatbotView(APIView):
 
         # Fetch all items associated with the current user
         user_items = Item.objects.filter(user=user)
-        # Convert the QuerySet to a list of Item objects
-        user_items_list = list(user_items)
-
-        # Convert each Item object in the list to a dictionary
+        user_items_list = list(Item.objects.filter(user=user))
         user_items_dict_list = [model_to_dict(item) for item in user_items_list]
-        print(f'the list of user items: {user_items_dict_list}')
         list_items = [x['name'] for x in user_items_dict_list]
 
         # get the body data from the request
@@ -114,7 +86,6 @@ class ChatbotView(APIView):
 
         # predict nsfw score for the user message
         nsfw_classifier = nsfw_model.get_classifier()
-        print(nsfw_classifier(text))
         if 'VIP' not in list_items:
             score = nsfw_classifier(text)[0]['score']
             if score >= 0.7:
@@ -166,30 +137,3 @@ class DeleteHistoryView(APIView):
         functions.delete_past_history(user_email)
 
         return Response({'message': 'History deleted successfully'})
-
-
-class CatbotView(APIView):
-
-    def post(self, request):
-
-        # # retrieve the user email from the incoming request
-        user = request.user
-        email = request.email
-
-        # # get the body data from the request
-        data = request.data
-        text = data['message']
-
-        # # get related history
-        history = functions.get_related_history(email, text)
-
-        # instantiate the model class and perform the prediction
-        model = HuggingFaceModel()
-        answer = model.predict(history, text)['answer']
-        print(f"bot's answer: \n{answer}")
-
-        # write the current interaction to ChromaDB
-        current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
-        functions.write_current_interaction(email, current_interaction)
-
-        return Response({'answer': answer})
