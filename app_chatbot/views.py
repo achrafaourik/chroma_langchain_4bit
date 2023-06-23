@@ -106,6 +106,7 @@ class ChatbotView(APIView):
         # Convert each Item object in the list to a dictionary
         user_items_dict_list = [model_to_dict(item) for item in user_items_list]
         print(f'the list of user items: {user_items_dict_list}')
+        list_items = [x['name'] for x in user_items_dict_list]
 
         # get the body data from the request
         data = request.data
@@ -114,6 +115,10 @@ class ChatbotView(APIView):
         # predict nsfw score for the user message
         nsfw_classifier = nsfw_model.get_classifier()
         print(nsfw_classifier(text))
+        if 'VIP' not in list_items:
+            score = nsfw_classifier(text)[0]['score']
+            if score >= 0.7:
+                return Response({'message': 'NO VIP NSFW'})
 
         # get related history
         related_history = functions.get_related_history(email, text)

@@ -12,7 +12,7 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         # fields = ['id', 'title', 'price', 'link']
-        fields = ['id', 'title']
+        fields = ['id', 'name']
         read_only_fields = ['id']
 
 
@@ -20,4 +20,4 @@ class ItemDetailSerializer(ItemSerializer):
     """Serializer for Item detail view."""
 
     class Meta(ItemSerializer.Meta):
-        fields = ItemSerializer.Meta.fields + ['description']
+        fields = ItemSerializer.Meta.fields + ['transaction_id']
