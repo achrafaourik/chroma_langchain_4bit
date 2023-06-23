@@ -142,7 +142,7 @@ class DeleteHistoryView(APIView):
     def post(self, request):
         # # retrieve the user email from the incoming request
         user = request.user
-        email = request.email
+        email = user.email
 
         functions.delete_past_history(user_email)
 
