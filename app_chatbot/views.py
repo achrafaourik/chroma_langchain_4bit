@@ -88,13 +88,10 @@ class ChatbotView(APIView):
         if 'VIP' not in list_items:
             score = nsfw_classifier(text)[0]['score']
             if score >= 0.7:
-                return Response({'message': 'NO VIP NSFW'})
+                return Response({'answer': 'NO VIP NSFW'})
 
         # get related history
         related_history = functions.get_related_history(email, text)
-
-        # # TODO: uncomment earlier lines later
-        # history = ''
 
         # get the last n conversations
         past_conversations = functions.return_last_n_interactions(email,
@@ -119,16 +116,13 @@ class ChatbotView(APIView):
         scores = [str(round(x['score'], 2)* 100) + '%'  for x in list_emotions[0]]
         list_emotions = [dict(zip(labels, scores))]
 
-
         return Response({'answer': answer,
                          'list_emotions': list_emotions,
                          'single_emotion': single_emotion})
 
 
 class DeleteHistoryView(APIView):
-
     def post(self, request):
-
         # # retrieve the user email from the incoming request
         user = request.user
         email = request.email
