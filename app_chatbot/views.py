@@ -5,7 +5,7 @@ from rest_framework.response import Response
 import requests
 import json
 from utils import functions
-from utils.huggingface_pipeline import HuggingFaceModel
+from utils.huggingface_pipeline import HuggingFaceModel, load_models
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 import os
 from rest_framework import generics, authentication, permissions
@@ -56,7 +56,7 @@ class GoogleAuthTokenView(View):
 
 class LoadModelsView(APIView):
     def get(self, request):
-        functions.load_models()
+        load_models()
         return Response({'message': 'Models successfully loaded'})
 
 
@@ -68,7 +68,7 @@ class ChatbotView(APIView):
     def post(self, request):
         print('-' * 80)
         # Load models
-        functions.load_models()
+        load_models()
 
         # # retrieve the user email from the incoming request
         user = request.user

@@ -10,12 +10,29 @@ from transformers import AutoTokenizer, pipeline, logging
 from auto_gptq import AutoGPTQForCausalLM, BaseQuantizeConfig
 import os
 import warnings
-from . import functions
+from utils import functions
 from langchain.llms.fake import FakeListLLM
+from utils.instructor_embeddings import InstructorEmbeddings
+from utils.emotion_pipeline import EmotionClassifier
+from utils.nsfw_classifier import NSFWClassifier
 
 
 with open('./utils/template_ayumi.txt', 'r') as f:
     template = functions.convert_to_multiline_string(f.read())
+
+
+def load_models():
+    # Create an instance of HuggingFaceModel
+    huggingface_model = HuggingFaceModel()
+    instructor_model = InstructorEmbeddings()
+    emotion_model = EmotionClassifier()
+    nsfw_model = NSFWClassifier()
+
+    # Run the 'load' method
+    huggingface_model.load()
+    instructor_model.load()
+    emotion_model.load()
+    nsfw_model.load()
 
 
 class HuggingFaceModel:

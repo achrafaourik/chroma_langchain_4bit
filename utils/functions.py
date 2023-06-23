@@ -2,10 +2,7 @@ import os
 import chromadb
 from chromadb.config import Settings
 import uuid
-from utils.huggingface_pipeline import HuggingFaceModel
-from utils.instructor_embeddings import InstructorEmbeddings
-from utils.emotion_pipeline import EmotionClassifier
-from utils.nsfw_classifier import NSFWClassifier
+
 
 
 def get_chroma_client():
@@ -94,16 +91,3 @@ def delete_past_history(user_email):
 
     collection.delete(where={'email': user_email})
 
-
-def load_models():
-    # Create an instance of HuggingFaceModel
-    huggingface_model = HuggingFaceModel()
-    instructor_model = InstructorEmbeddings()
-    emotion_model = EmotionClassifier()
-    nsfw_model = NSFWClassifier()
-
-    # Run the 'load' method
-    huggingface_model.load()
-    instructor_model.load()
-    emotion_model.load()
-    nsfw_model.load()
