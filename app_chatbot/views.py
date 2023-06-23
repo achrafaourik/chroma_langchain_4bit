@@ -84,13 +84,13 @@ class ChatbotView(APIView):
         huggingface_model = HuggingFaceModel()
         instructor_model = InstructorEmbeddings()
         emotion_model = EmotionClassifier()
-        nfsw_model = NSFWClassifier()
+        nsfw_model = NSFWClassifier()
 
         # Run the 'load' method
         huggingface_model.load()
         instructor_model.load()
         emotion_model.load()
-        nfsw_model.load()
+        nsfw_model.load()
 
         # # retrieve the user email from the incoming request
         user = request.user
@@ -110,8 +110,8 @@ class ChatbotView(APIView):
         text = data['message']
 
         # predict nsfw score for the user message
-        nswf_classifier = nsfw_model.get_classifier()
-        print(nswf_classifier(text))
+        nsfw_classifier = nsfw_model.get_classifier()
+        print(nsfw_classifier(text))
 
         # get related history
         related_history = functions.get_related_history(email, text)
