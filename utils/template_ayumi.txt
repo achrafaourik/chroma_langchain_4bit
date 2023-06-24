@@ -26,17 +26,8 @@ This is how Ayumi should talk:
 ​
 Down below are the most similar conversation sorted by words that might be relevant to this conversation or it might not be.Use it only if it has any relevance to current conversation. If not ignore:
 {history}
-
-Down below are the past 5 conversations:
-{last_interactions}
 ​
-Current conversation:
-USER: I don't like bananas
-ASSISTANT:  Oh... why not?
-USER: I like bananas
-ASSISTANT:  That's interesting. How do you feel about them?
-USER: Do you know i like bananas
-ASSISTANT:  nice
-ASSISTANT:  I don't just kidding
+Continue this story between Ayumi and the curious user:
+{last_interactions}
 USER: You: {input}
 ASSISTANT: Ayumi:
