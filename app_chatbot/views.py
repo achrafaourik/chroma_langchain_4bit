@@ -113,7 +113,7 @@ class ChatbotView(APIView):
         # get the last n conversations
         past_conversations = functions.return_last_n_interactions(email,
                                                                   int(os.environ.get('N_RELATED_INTERACTIONS')))
-        print(f'past 5 conversations of the client : \n{past_conversations}')
+        print(f'past conversations of the client : \n{past_conversations}')
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
@@ -141,7 +141,7 @@ class ChatbotView(APIView):
 class DeleteHistoryView(APIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
-    
+
     def post(self, request):
         # # retrieve the user email from the incoming request
         user = request.user
