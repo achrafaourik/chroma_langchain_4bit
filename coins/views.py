@@ -38,30 +38,7 @@ class CoinViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-    @extend_schema(
-    # define request body
-    request=extend_schema(
-        fields=[
-            OpenApiParameter(
-                name='number_of_coins',
-                type=OpenApiTypes.INT,
-                location=OpenApiParameter.QUERY,
-                description='Number of coins to be added or removed',
-                required=True
-            ),
-            OpenApiParameter(
-                name='operation',
-                type=OpenApiTypes.STR,
-                location=OpenApiParameter.QUERY,
-                description='Operation to be performed. Accepts "add" or "remove"',
-                required=True
-            )
-        ]
-    ),
-    # define response structure
-    responses={
-        200: OpenApiTypes.STR
-    })
+    @extend_schema(request=serializers.UpdateCoinsSerializer, responses=OpenApiTypes.OBJECT)
     @action(detail=False, methods=['post'], url_path='update-coins')
     def update_coins(self, request):
         coin = self.request.user.coin

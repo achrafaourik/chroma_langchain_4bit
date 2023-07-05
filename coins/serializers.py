@@ -2,8 +2,12 @@
 Serializers for Item APIs
 """
 from rest_framework import serializers
-
 from core.models import Coin
+
+
+class UpdateCoinsSerializer(serializers.Serializer):
+    number_of_coins = serializers.IntegerField()
+    operation = serializers.ChoiceField(choices=["add", "remove"])
 
 
 class CoinSerializer(serializers.ModelSerializer):
