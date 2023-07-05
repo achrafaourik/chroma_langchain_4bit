@@ -99,4 +99,3 @@ class Coin(models.Model):
 
     def __str__(self):
         return f'{self.user.email}: Coins-{self.num_coins}, Level-{self.level}'
-
