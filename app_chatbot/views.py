@@ -73,18 +73,12 @@ class GoogleAuthTokenView(View):
             return JsonResponse({"error": "Failed to retrieve access token.", "details": error_data}, status=400)
 
 
-class LoadModelsView(APIView):
-
+class LoadModelsView(generics.GenericAPIView):
     @extend_schema(
+        # no request schema needed as we do not expect any request body
         responses={
             200: {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "example": "Models successfully loaded",
-                    }
-                },
+                'message': OpenApiTypes.STR
             }
         }
     )
@@ -94,7 +88,7 @@ class LoadModelsView(APIView):
 
 
 
-class ChatbotView(APIView):
+class ChatbotView(generics.GenericAPIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -154,21 +148,13 @@ class ChatbotView(APIView):
                          'single_emotion': single_emotion})
 
 
-class DeleteHistoryView(APIView):
+class DeleteHistoryView(generics.GenericAPIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(
         responses={
-            200: {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "example": "History deleted successfully",
-                    }
-                },
-            }
+            200: OpenApiTypes.OBJECT
         }
     )
     def post(self, request):
