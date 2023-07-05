@@ -18,6 +18,8 @@ from utils.huggingface_pipeline import HuggingFaceModel
 from utils.instructor_embeddings import InstructorEmbeddings
 from utils.emotion_pipeline import EmotionClassifier
 from utils.nsfw_classifier import NSFWClassifier
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.types import OpenApiTypes
 
 
 
@@ -72,6 +74,14 @@ class GoogleAuthTokenView(View):
 
 
 class LoadModelsView(APIView):
+    @extend_schema(
+        # no request schema needed as we do not expect any request body
+        responses={
+            200: {
+                'message': OpenApiTypes.STR
+            }
+        }
+    )
     def get(self, request):
         load_models()
         return Response({'message': 'Models successfully loaded'})
@@ -142,6 +152,11 @@ class DeleteHistoryView(APIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
 
+    @extend_schema(
+        responses={
+            200: OpenApiTypes.OBJECT
+        }
+    )
     def post(self, request):
         # # retrieve the user email from the incoming request
         user = request.user
