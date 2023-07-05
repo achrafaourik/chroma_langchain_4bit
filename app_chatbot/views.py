@@ -18,8 +18,6 @@ from utils.huggingface_pipeline import HuggingFaceModel
 from utils.instructor_embeddings import InstructorEmbeddings
 from utils.emotion_pipeline import EmotionClassifier
 from utils.nsfw_classifier import NSFWClassifier
-from drf_spectacular.utils import extend_schema
-from drf_spectacular.types import OpenApiTypes
 
 
 
@@ -73,22 +71,14 @@ class GoogleAuthTokenView(View):
             return JsonResponse({"error": "Failed to retrieve access token.", "details": error_data}, status=400)
 
 
-class LoadModelsView(generics.GenericAPIView):
-    @extend_schema(
-        # no request schema needed as we do not expect any request body
-        responses={
-            200: {
-                'message': OpenApiTypes.STR
-            }
-        }
-    )
+class LoadModelsView(APIView):
     def get(self, request):
         load_models()
         return Response({'message': 'Models successfully loaded'})
 
 
 
-class ChatbotView(generics.GenericAPIView):
+class ChatbotView(APIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
 
@@ -148,15 +138,10 @@ class ChatbotView(generics.GenericAPIView):
                          'single_emotion': single_emotion})
 
 
-class DeleteHistoryView(generics.GenericAPIView):
+class DeleteHistoryView(APIView):
     authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    @extend_schema(
-        responses={
-            200: OpenApiTypes.OBJECT
-        }
-    )
     def post(self, request):
         # # retrieve the user email from the incoming request
         user = request.user
