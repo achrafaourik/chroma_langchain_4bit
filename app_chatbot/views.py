@@ -74,11 +74,17 @@ class GoogleAuthTokenView(View):
 
 
 class LoadModelsView(APIView):
+
     @extend_schema(
-        # no request schema needed as we do not expect any request body
         responses={
             200: {
-                'message': OpenApiTypes.STR
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Models successfully loaded",
+                    }
+                },
             }
         }
     )
@@ -154,7 +160,15 @@ class DeleteHistoryView(APIView):
 
     @extend_schema(
         responses={
-            200: OpenApiTypes.OBJECT
+            200: {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "History deleted successfully",
+                    }
+                },
+            }
         }
     )
     def post(self, request):
