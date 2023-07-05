@@ -56,14 +56,14 @@ class HuggingFaceModel:
             # responses=[" default response"]
             # cls.llm = FakeListLLM(responses=responses)
 
-            cls.prompt = PromptTemplate(template=template, input_variables=["history", "last_interactions", "input"])
+            cls.prompt = PromptTemplate(template=template, input_variables=["history", "examples", "last_interactions", "input"])
             cls.llm_chain = LLMChain(prompt=cls.prompt, llm=cls.llm)
 
             set_seed(420)
             elapsed = 1000 * (perf_counter() - t0)
 
     @classmethod
-    def predict(cls, history: str, last_interactions: str, text: str):
+    def predict(cls, history: str, examples: str, last_interactions: str, text: str):
 
         # Make sure the model is loaded
         cls.load()
@@ -72,6 +72,7 @@ class HuggingFaceModel:
 
         # run the predictions using the llm chain
         generated_text = cls.llm_chain.predict(history=history,
+                                               examples=examples, 
                                                last_interactions=last_interactions,
                                                input=text)
         elapsed = 1000 * (perf_counter() - t0)

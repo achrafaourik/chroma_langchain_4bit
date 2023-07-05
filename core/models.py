@@ -9,6 +9,9 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.urls import reverse
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 
 
 class UserManager(BaseUserManager):
@@ -48,6 +51,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
 
+# This signal is fired after a User object has been saved
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_related_coin(sender, instance, created, **kwargs):
+    if created: # only for newly created User objects
+        Coin.objects.create(user=instance)
+
 
 class Item(models.Model):
     """Item object."""
@@ -62,3 +71,31 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+class Coin(models.Model):
+    """Coin object."""
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    num_coins = models.PositiveIntegerField(default=0)
+    level = models.PositiveIntegerField(default=1)
+
+    def save(self, *args, **kwargs):
+        self.level = self.get_level()
+        super().save(*args, **kwargs)
+
+    def get_level(self):
+        if self.num_coins < 1000:
+            return 1
+        elif self.num_coins < 3000:
+            return 2
+        elif self.num_coins < 10000:
+            return 3
+        elif self.num_coins < 25000:
+            return 4
+        else:
+            return 5
+
+    def __str__(self):
+        return f'{self.user.name}: Coins-{self.num_coins}, Level-{self.level}'

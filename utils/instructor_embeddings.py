@@ -15,7 +15,7 @@ class InstructorEmbeddings:
                 model_name="hkunlp/instructor-xl",
                 # device="cuda:0",
                 device="cuda",
-                instruction="Represent this document for roleplay: ")
+                instruction="Represent this document for conversations: ")
 
     @classmethod
     def get_embedding_function(cls):
