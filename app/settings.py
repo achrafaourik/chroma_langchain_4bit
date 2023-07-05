@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "app_chatbot",
     "django_filters",
     "oauth2_provider",
-    "items"
+    "items",
+    "coins"
 ]
 
 MIDDLEWARE = [

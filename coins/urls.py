@@ -8,13 +8,13 @@ from django.urls import (
 
 from rest_framework.routers import DefaultRouter
 
-from items import views
+from coins import views
 
 
 router = DefaultRouter()
-router.register('items', views.ItemViewSet)
+router.register('coins', views.CoinViewSet)
 
-app_name = 'items'
+app_name = 'coins'
 
 urlpatterns = [
     path('', include(router.urls)),

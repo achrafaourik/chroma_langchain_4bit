@@ -30,4 +30,5 @@ urlpatterns = [
     path('bot/', include("app_chatbot.urls")),
     path('api/user/', include('user.urls')),
     path('api/item/', include('items.urls')),
+    path('api/coin/', include('coins.urls')),
 ]
