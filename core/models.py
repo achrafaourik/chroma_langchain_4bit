@@ -98,4 +98,5 @@ class Coin(models.Model):
             return 5
 
     def __str__(self):
-        return f'{self.user.name}: Coins-{self.num_coins}, Level-{self.level}'
+        return f'{self.user.email}: Coins-{self.num_coins}, Level-{self.level}'
+
