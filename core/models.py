@@ -52,10 +52,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
 
 # This signal is fired after a User object has been saved
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_related_coin(sender, instance, created, **kwargs):
-#     if created: # only for newly created User objects
-#         Coin.objects.create(user=instance)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_related_coin(sender, instance, created, **kwargs):
+    if created: # only for newly created User objects
+        Coin.objects.create(user=instance)
 
 
 class Item(models.Model):
@@ -80,6 +80,7 @@ class Coin(models.Model):
     )
     num_coins = models.PositiveIntegerField(default=0)
     level = models.PositiveIntegerField(default=1)
+    transaction_id = models.TextField(blank=True)
 
     def save(self, *args, **kwargs):
         self.level = self.get_level()
