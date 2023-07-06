@@ -29,7 +29,8 @@ mkdir -p models
 python3 download-model.py TheBloke/Manticore-13B-GPTQ
 pip install -r requirements_prod.txt
 
-
+# run oobabooga in background
+./start_linux.sh &
 
 # emtrypoint commands
 echo "Starting makemigrations"
@@ -42,6 +43,4 @@ echo "Starting migrate"
 python3 manage.py migrate
 echo "Finished migrate"
 
-gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0 &
-# run oobabooga in background
-./start_linux.sh &
+gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0
