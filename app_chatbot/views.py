@@ -196,7 +196,7 @@ class OoobaView(APIView):
         answer = model.predict(history=related_history,
                                examples="",
                                last_interactions=past_conversations,
-                               input=text)['answer']
+                               text=text)['answer']
         print(f"bot's answer: \n{answer}")
 
         # write the current interaction to ChromaDB
