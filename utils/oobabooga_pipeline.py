@@ -23,7 +23,7 @@ class OobaBoogaModel:
                                                                             "input"])
 
     @classmethod
-    def predict(cls, history: str, examples, last_interactions: str, text: str):
+    def predict(cls, history: str, examples: str, last_interactions: str, text: str):
 
         # Make sure the model is loaded
         cls.load()
