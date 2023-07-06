@@ -12,7 +12,7 @@ export CHROMA_SERVER_HOST="165.227.170.110"
 export N_RELATED_INTERACTIONS="5"
 
 # add ooba script running on background
-./start_linux &
+./start_linux.sh &
 
 echo "Starting makemigrations"
 python3 manage.py flush --no-input
