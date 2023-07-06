@@ -73,7 +73,7 @@ class OobaBoogaModel:
         HOST = 'localhost:6868'
         URI = f'http://{HOST}/api/v1/generate'
 
-        generated_text = requests.post(URI, json=request)
+        generated_text = requests.post(URI, json=request).json()['results'][0]['text']
 
         # Create the custom prediction object.
         return {"answer": generated_text}
