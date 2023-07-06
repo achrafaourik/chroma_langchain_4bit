@@ -10,7 +10,7 @@ conda_env_path = os.path.join(script_dir, "installer_files", "env")
 
 # Use this to set your command-line flags. For the full list, see:
 # https://github.com/oobabooga/text-generation-webui/#starting-the-web-ui
-CMD_FLAGS = '--chat --listen --model TheBloke_Manticore-13B-GPTQ --loader exllama --model-dir /workspace/oobabooga_linux/text-generation-webui/models --api'
+CMD_FLAGS = '--chat --listen --model TheBloke_Manticore-13B-GPTQ --loader exllama --model-dir /workspace/chroma_langchain_4bit/models --api'
 
 
 # Allows users to set flags in "OOBABOOGA_FLAGS" environment variable
@@ -187,50 +187,50 @@ def update_dependencies():
     if sys.platform.startswith("linux") and not os.path.exists(f"{conda_env_path}/lib64"):
         run_cmd(f'ln -s "{conda_env_path}/lib" "{conda_env_path}/lib64"', environment=True)
 
-    # Install GPTQ-for-LLaMa which enables 4bit CUDA quantization
-    if not os.path.exists("GPTQ-for-LLaMa/"):
-        run_cmd("git clone https://github.com/oobabooga/GPTQ-for-LLaMa.git -b cuda", assert_success=True, environment=True)
+    # # Install GPTQ-for-LLaMa which enables 4bit CUDA quantization
+    # if not os.path.exists("GPTQ-for-LLaMa/"):
+    #     run_cmd("git clone https://github.com/oobabooga/GPTQ-for-LLaMa.git -b cuda", assert_success=True, environment=True)
 
-    # Install GPTQ-for-LLaMa dependencies
-    os.chdir("GPTQ-for-LLaMa")
-    run_cmd("git pull", assert_success=True, environment=True)
+    # # Install GPTQ-for-LLaMa dependencies
+    # os.chdir("GPTQ-for-LLaMa")
+    # run_cmd("git pull", assert_success=True, environment=True)
 
-    # On some Linux distributions, g++ may not exist or be the wrong version to compile GPTQ-for-LLaMa
-    if sys.platform.startswith("linux"):
-        gxx_output = run_cmd("g++ -dumpfullversion -dumpversion", environment=True, capture_output=True)
-        if gxx_output.returncode != 0 or int(gxx_output.stdout.strip().split(b".")[0]) > 11:
-            # Install the correct version of g++
-            run_cmd("conda install -y -k gxx_linux-64=11.2.0", environment=True)
+    # # On some Linux distributions, g++ may not exist or be the wrong version to compile GPTQ-for-LLaMa
+    # if sys.platform.startswith("linux"):
+    #     gxx_output = run_cmd("g++ -dumpfullversion -dumpversion", environment=True, capture_output=True)
+    #     if gxx_output.returncode != 0 or int(gxx_output.stdout.strip().split(b".")[0]) > 11:
+    #         # Install the correct version of g++
+    #         run_cmd("conda install -y -k gxx_linux-64=11.2.0", environment=True)
 
-    # Compile and install GPTQ-for-LLaMa
-    if os.path.exists('setup_cuda.py'):
-        os.rename("setup_cuda.py", "setup.py")
+    # # Compile and install GPTQ-for-LLaMa
+    # if os.path.exists('setup_cuda.py'):
+    #     os.rename("setup_cuda.py", "setup.py")
 
-    run_cmd("python -m pip install .", environment=True)
+    # run_cmd("python -m pip install .", environment=True)
 
     # Wheel installation can fail while in the build directory of a package with the same name
     os.chdir("..")
 
-    # If the path does not exist, then the install failed
-    quant_cuda_path_regex = os.path.join(site_packages_path, "quant_cuda*/")
-    if not glob.glob(quant_cuda_path_regex):
-        # Attempt installation via alternative, Windows/Linux-specific method
-        if sys.platform.startswith("win") or sys.platform.startswith("linux"):
-            print_big_message("WARNING: GPTQ-for-LLaMa compilation failed, but this is FINE and can be ignored!\nThe installer will proceed to install a pre-compiled wheel.")
-            url = "https://github.com/jllllll/GPTQ-for-LLaMa-Wheels/raw/main/quant_cuda-0.0.0-cp310-cp310-win_amd64.whl"
-            if sys.platform.startswith("linux"):
-                url = "https://github.com/jllllll/GPTQ-for-LLaMa-Wheels/raw/Linux-x64/quant_cuda-0.0.0-cp310-cp310-linux_x86_64.whl"
+    # # If the path does not exist, then the install failed
+    # quant_cuda_path_regex = os.path.join(site_packages_path, "quant_cuda*/")
+    # if not glob.glob(quant_cuda_path_regex):
+    #     # Attempt installation via alternative, Windows/Linux-specific method
+    #     if sys.platform.startswith("win") or sys.platform.startswith("linux"):
+    #         print_big_message("WARNING: GPTQ-for-LLaMa compilation failed, but this is FINE and can be ignored!\nThe installer will proceed to install a pre-compiled wheel.")
+    #         url = "https://github.com/jllllll/GPTQ-for-LLaMa-Wheels/raw/main/quant_cuda-0.0.0-cp310-cp310-win_amd64.whl"
+    #         if sys.platform.startswith("linux"):
+    #             url = "https://github.com/jllllll/GPTQ-for-LLaMa-Wheels/raw/Linux-x64/quant_cuda-0.0.0-cp310-cp310-linux_x86_64.whl"
 
-            result = run_cmd("python -m pip install " + url, environment=True)
-            if result.returncode == 0:
-                print("Wheel installation success!")
-            else:
-                print("ERROR: GPTQ wheel installation failed. You will not be able to use GPTQ-based models.")
-        else:
-            print("ERROR: GPTQ CUDA kernel compilation failed.")
-            print("You will not be able to use GPTQ-based models.")
+    #         result = run_cmd("python -m pip install " + url, environment=True)
+    #         if result.returncode == 0:
+    #             print("Wheel installation success!")
+    #         else:
+    #             print("ERROR: GPTQ wheel installation failed. You will not be able to use GPTQ-based models.")
+    #     else:
+    #         print("ERROR: GPTQ CUDA kernel compilation failed.")
+    #         print("You will not be able to use GPTQ-based models.")
 
-        print("Continuing with install..")
+    #     print("Continuing with install..")
 
 
 def download_model():

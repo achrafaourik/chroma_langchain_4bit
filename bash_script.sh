@@ -29,6 +29,9 @@ mkdir -p models
 python3 download-model.py TheBloke/Manticore-13B-GPTQ
 pip install -r requirements_prod.txt
 
+# run oobabooga in background
+./start_linux.sh &
+
 # emtrypoint commands
 echo "Starting makemigrations"
 python3 manage.py flush --no-input
