@@ -76,6 +76,20 @@ def write_current_interaction(user_email, current_interaction):
         metadatas=[{'email': user_email, 'nbr_inter': nbr_interaction}],
         ids=generate_unique_id())
 
+
+def write_examples():
+    client = get_chroma_client()
+    instructor_ef = InstructorEmbeddings().get_embedding_function()
+
+    collection = client.get_or_create_collection(name="examples",
+                                                 embedding_function=instructor_ef)
+    nbr_interaction = get_nbr_last_interaction(user_email) + 1
+
+    collection.add(
+        documents=[current_interaction],
+        metadatas=[{'email': user_email, 'nbr_inter': nbr_interaction}],
+        ids=generate_unique_id())
+
 def get_nbr_last_interaction(user_email):
     client = get_chroma_client()
     collection = client.get_or_create_collection(name="user_embeddings")
