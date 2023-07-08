@@ -34,6 +34,8 @@ class OobaBoogaModel:
                                    last_interactions=last_interactions,
                                    input=text)
 
+        print(prompt)
+
 
         request = {
             'prompt': prompt,
