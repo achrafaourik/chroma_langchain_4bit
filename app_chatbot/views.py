@@ -168,7 +168,7 @@ class OoobaView(APIView):
         # # retrieve the user email from the incoming request
         # user = request.user
         # email = user.email
-        email = "user420@mail.com"
+        email = "user123@mail.com"
 
         # # Fetch all items associated with the current user
         # user_items_list = list(Item.objects.filter(user=user))
