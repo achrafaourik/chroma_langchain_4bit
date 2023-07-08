@@ -206,7 +206,7 @@ class OoobaView(APIView):
         print(f"bot's answer: \n{answer}")
 
         # write the current interaction to ChromaDB
-        current_interaction = "\n".join([f'USER: {text}', f'ASSISTANT: {answer}'])
+        current_interaction = "\n".join([f'You: {text}', f'Airi: {answer}'])
         functions.write_current_interaction(email, current_interaction)
 
         # # get the list of emotions
