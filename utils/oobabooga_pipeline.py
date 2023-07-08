@@ -34,6 +34,8 @@ class OobaBoogaModel:
                                    last_interactions=last_interactions,
                                    input=text)
 
+        print('-' * 20 + '*' * 10 + '-' * 20)
+        print('the final prompt is:')
         print(prompt)
 
 

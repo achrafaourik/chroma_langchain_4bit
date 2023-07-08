@@ -109,7 +109,7 @@ def get_related_examples(current_input):
 
     res = collection.query(
         query_texts=[current_input],
-        n_results=3)
+        n_results=2)
 
     related_interactions = res['documents'][0]
     related_examples ="\n".join(related_interactions)
