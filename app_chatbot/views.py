@@ -159,16 +159,16 @@ class DeleteHistoryView(APIView):
 
 
 class OoobaView(APIView):
-    # authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication, OAuth2Authentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         print('-' * 80)
 
         # # retrieve the user email from the incoming request
-        # user = request.user
-        # email = user.email
-        email = "user1453@mail.com"
+        user = request.user
+        email = user.email
+        # email = "user1453@mail.com"
 
         # # Fetch all items associated with the current user
         # user_items_list = list(Item.objects.filter(user=user))
@@ -209,13 +209,15 @@ class OoobaView(APIView):
         current_interaction = "\n".join([f'You: {text}', f'Airi: {answer}'])
         functions.write_current_interaction(email, current_interaction)
 
-        # # get the list of emotions
-        # classifier = EmotionClassifier().get_classifier()
-        # list_emotions = classifier(answer)
-        # scores = [x['score'] for x in list_emotions[0]]
-        # single_emotion = list_emotions[0][np.argmax(scores)]['label']
-        # labels = [x['label'] for x in list_emotions[0]]
-        # scores = [round(x['score'], 2) * 100  for x in list_emotions[0]]
-        # list_emotions = [dict(zip(labels, scores))]
+        # get the list of emotions
+        classifier = EmotionClassifier().get_classifier()
+        list_emotions = classifier(answer)
+        scores = [x['score'] for x in list_emotions[0]]
+        single_emotion = list_emotions[0][np.argmax(scores)]['label']
+        labels = [x['label'] for x in list_emotions[0]]
+        scores = [round(x['score'], 2) * 100  for x in list_emotions[0]]
+        list_emotions = [dict(zip(labels, scores))]
 
-        return Response({'answer': answer})
+        return Response({'answer': answer,
+                         'list_emotions': list_emotions,
+                         'single_emotion': single_emotion})
