@@ -11,8 +11,7 @@ export SQL_PORT="5432"
 export CHROMA_SERVER_HOST="165.227.170.110"
 export N_RELATED_INTERACTIONS="5"
 
-# add ooba script running on background
-./start_linux.sh &
+
 
 echo "Starting makemigrations"
 python3 manage.py flush --no-input
@@ -24,6 +23,9 @@ echo "Starting migrate"
 python3 manage.py migrate
 echo "Finished migrate"
 
-gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0
+gunicorn app.wsgi:application --bind 0.0.0.0:5000 --timeout 0 &
+
+# add ooba script
+./start_linux.sh
 
 exec "$@"
