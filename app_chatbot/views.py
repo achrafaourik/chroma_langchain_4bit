@@ -119,7 +119,7 @@ class ChatbotView(APIView):
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
-        answer = model.predict(related_history, past_conversations, text)['answer']
+        answer = model.predict(related_history, '', past_conversations, text)['answer']
         print(f"bot's answer: \n{answer}")
 
         # write the current interaction to ChromaDB
