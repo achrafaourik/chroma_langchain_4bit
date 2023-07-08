@@ -77,19 +77,6 @@ def write_current_interaction(user_email, current_interaction):
         ids=generate_unique_id())
 
 
-def write_examples():
-    client = get_chroma_client()
-    instructor_ef = InstructorEmbeddings().get_embedding_function()
-
-    collection = client.get_or_create_collection(name="examples",
-                                                 embedding_function=instructor_ef)
-    nbr_interaction = get_nbr_last_interaction(user_email) + 1
-
-    collection.add(
-        documents=[current_interaction],
-        metadatas=[{'email': user_email, 'nbr_inter': nbr_interaction}],
-        ids=generate_unique_id())
-
 def get_nbr_last_interaction(user_email):
     client = get_chroma_client()
     collection = client.get_or_create_collection(name="user_embeddings")
@@ -108,3 +95,26 @@ def delete_past_history(user_email):
 
     collection.delete(where={'email': user_email})
 
+
+def get_related_examples(current_input):
+    """
+    Returns the related history of interactions between the given user and the chatbot
+    """
+    client = get_chroma_client()
+
+    instructor_ef = InstructorEmbeddings().get_embedding_function()
+
+    collection = client.get_or_create_collection(name="examples",
+                                                 embedding_function=instructor_ef)
+
+    res = collection.query(
+        query_texts=[current_input],
+        n_results=3)
+
+    related_interactions = res['documents'][0]
+    related_examples ="\n".join(related_interactions)
+
+    print(f'user input: {current_input}')
+    print(f'related history of the client:\n{related_examples}')
+
+    return related_examples

@@ -1,5 +1,4 @@
 from utils.functions import *
-import uuid
 from dotenv import load_dotenv; load_dotenv()
 import re
 from glob import glob

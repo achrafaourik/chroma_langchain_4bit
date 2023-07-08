@@ -112,6 +112,9 @@ class ChatbotView(APIView):
         # get related history
         related_history = functions.get_related_history(email, text)
 
+        # get similar examples
+        related_examples = functions.get_related_examples(text)
+
         # get the last n conversations
         past_conversations = functions.return_last_n_interactions(email,
                                                                   int(os.environ.get('N_RELATED_INTERACTIONS')))
@@ -119,7 +122,7 @@ class ChatbotView(APIView):
 
         # instantiate the model class and perform the prediction
         model = HuggingFaceModel()
-        answer = model.predict(related_history, '', past_conversations, text)['answer']
+        answer = model.predict(related_history, related_examples, past_conversations, text)['answer']
         print(f"bot's answer: \n{answer}")
 
         # write the current interaction to ChromaDB
@@ -186,6 +189,9 @@ class OoobaView(APIView):
         # get related history
         related_history = functions.get_related_history(email, text)
 
+        # get similar examples
+        related_examples = functions.get_related_examples(text)
+
         # get the last n conversations
         past_conversations = functions.return_last_n_interactions(email,
                                                                   int(os.environ.get('N_RELATED_INTERACTIONS')))
@@ -194,7 +200,7 @@ class OoobaView(APIView):
         # instantiate the model class and perform the prediction
         model = OobaBoogaModel()
         answer = model.predict(history=related_history,
-                               examples="",
+                               examples=related_examples,
                                last_interactions=past_conversations,
                                text=text)['answer']
         print(f"bot's answer: \n{answer}")
