@@ -93,7 +93,7 @@ def install_dependencies():
         sys.exit()
 
     # Clone webui to our computer
-    run_cmd("git clone https://github.com/oobabooga/text-generation-webui.git", assert_success=True, environment=True)
+    run_cmd("git clone https://github.com/achrafaourik/text-generation-webui.git", assert_success=True, environment=True)
 
     # Install the webui dependencies
     update_dependencies()
