@@ -31,7 +31,7 @@ def load_models():
     nsfw_model = NSFWClassifier()
 
     # Run the 'load' method
-    huggingface_model.load()
+    # huggingface_model.load()
     instructor_model.load()
     emotion_model.load()
     nsfw_model.load()
