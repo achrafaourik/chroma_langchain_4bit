@@ -24,7 +24,7 @@ mkdir -p /workspace/pip_packages
 pip install --upgrade pip
 # git clone https://github.com/PanQiWei/AutoGPTQ.git && pip install ./AutoGPTQ
 pip install auto_gptq-0.2.2+cu117-cp310-cp310-linux_x86_64.whl
-pip install --target /workspace/pip_packages -r requirements_prod.txt
+pip install -r requirements_prod.txt
 
 # emtrypoint commands
 echo "Starting makemigrations"
